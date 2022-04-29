@@ -29,7 +29,6 @@ export default function SignUp() {
   const onSubmit = async (e) => {
     e.preventDefault()
     try {
-      console.log(db)
       const auth = getAuth()
       const userCredential = await createUserWithEmailAndPassword(auth, email, password)
       const user = userCredential.user
