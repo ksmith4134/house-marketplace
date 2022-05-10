@@ -1,9 +1,12 @@
 import { useState } from "react"
 import { Link, useNavigate } from 'react-router-dom'
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
-import { db } from '../firebase.config'
+import { toast } from "react-toastify"
 import { ReactComponent as ArrowRightIcon } from '../assets/svg/keyboardArrowRightIcon.svg'
 import visibilityIcon from '../assets/svg/visibilityIcon.svg'
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore'
+import { db } from '../firebase.config'
+import OAuth from "../components/OAuth"
 
 
 export default function SignUp() {
@@ -28,19 +31,31 @@ export default function SignUp() {
   
   const onSubmit = async (e) => {
     e.preventDefault()
+
+    // SIGN UP AUTHENTICATION IN FIREBASE
     try {
       const auth = getAuth()
+
       const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+
       const user = userCredential.user
 
       updateProfile(auth.currentUser, {
         displayName: name,
       })
 
+      // ADDING DATA TO FIRESTORE DATABASE
+      const formDataCopy = {...formData} // make a copy of the data
+      delete formDataCopy.password
+      formDataCopy.timestamp = serverTimestamp()
+
+      await setDoc(doc(db, 'users', user.uid), formDataCopy)
+
+      // REDIRCT TO HOME
       navigate('/')
 
     } catch (error) {
-      console.log(error)
+      toast.error('Something went wrong with registration')
     }
   }
 
@@ -75,7 +90,7 @@ export default function SignUp() {
             </div>
           </form>
 
-          {/* Google Oauth */}
+          <OAuth />
 
           <Link to='/sign-in' className="registerLink">
             Sign In Instead

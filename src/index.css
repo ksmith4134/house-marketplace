@@ -264,7 +264,8 @@ button {
 }
 
 .socialLogin {
-  margin-top: 4rem;
+  margin-top: 1rem;
+  margin-bottom: 8rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -276,7 +277,7 @@ button {
   justify-content: center;
   align-items: center;
   padding: 0.75rem;
-  margin: 1.5rem;
+  /* margin: 1.0rem; */
   width: 3rem;
   height: 3rem;
   background-color: #ffffff;
@@ -294,6 +295,14 @@ button {
   font-weight: 600;
   text-align: center;
   margin-bottom: 3rem;
+}
+
+.registerInsteadLink {
+  margin-top: 1rem;
+  color: #00cc66;
+  font-weight: 600;
+  text-align: left;
+  margin-bottom: 2rem;
 }
 
 @media (min-width: 1217px) {
